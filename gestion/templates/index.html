@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio Almacen | Django Pruebas</title>
+  </head>
+  <body>
+    <main>
+      <h1>Hola Álvaro! Estas en la página de inicio del Almacén.</h1>
+      <h1>Lista de productos:</h1>
+      {# Esto sería un comentario en mi código, el cual no queda impreso #}
+      <div class="my_product_list">
+        <ul>
+          {%for product in products%}
+          <li>
+            <h4>{{product.name}}</h4>
+            <h4>{{product.price}}</h4>
+            <p>{{product.description}}</p>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>
