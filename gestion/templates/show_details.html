@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %} 
+{% block title %}{{product.name}}{% endblock title %}
+{% block details %}
+<main class="container">
+    <h1 class="my-4">Detalles del producto:</h1>
+    <div class="border-info p-4 rounded bg-secondary">
+      <h4 class="py-2">{{product.name}}</h4>
+      <h6 class="fw-lighter text-info">{{product.price}}€</h6>
+      <p>{{product.description}}</p>
+    </div>
+</main>
+{% endblock %}
+
