@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block new_product_form %}
+    <div class="bg-body-tertiary d-flex justify-content-center align-items-center my-5 py-5 border border-primary">
+        <div class="d-flex flex-column justify-content-center gap-2">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-primary my-3" type="submit" onClick="">Enviar</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

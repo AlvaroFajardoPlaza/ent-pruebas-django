@@ -1,10 +1,18 @@
 {% extends "base_generic.html" %} 
-{% block title %}Mi título aquí{% endblock title %} 
+<!-- {% block title %} Título aquí para este bloque {% endblock title %} -->
+
+{% block new_product_form %} {% endblock %}
 
 {% block my_index %}
 <main>
   {# Esto sería un comentario en mi código, el cual no queda impreso #}
   <div class="my_product_list container bg-dark text-light p-4">
+
+    <div class="mb-4">
+      <a href="{% url 'gestion:create_product' %}" class="fs-5 fw-bold text-info">Crear un nuevo producto</a>
+    </div>
+
+
     <h1 class="border-top border-white">Lista de productos:</h1>
     <ul class="list-group list-unstyled">
       {%for product in products%}
@@ -13,6 +21,9 @@
         <h5 class="fw-lighter text-info">{{product.price}}€</h5>
         <p>{{product.description}}</p>
         <a href="{% url 'gestion:show_details' product.id %}" class="my-2">Ver detalles del producto</a>
+        <a href="{% url 'gestion:update_product' product.id %}" class="btn btn-sm btn-primary ms-3">Editar</a>
+        <a href="{% url 'gestion:delete' product.id %}" class="btn btn-sm btn-danger ms-3">Eliminar producto</a>
+
       </li>
       {% endfor %}
     </ul>

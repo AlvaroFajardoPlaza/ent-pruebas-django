@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 
 #Django Paginator nos permite paginar los resultados y también nos permite acceder a las excepciones de uso
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
@@ -7,13 +7,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, Invali
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 
 from .models import Product
+from .forms import ProductForm
 
 # Create your views here.
 def index(req=None):
     # Esto nos imprime por consola los productos que hayamos guardado antes... Podemos guardarlo en una variable... etc
     # print(Product.objects.all())
     products = Product.objects.all()
-    products_page = Paginator(products, 2) # Muestra dos productos de la lista
+    products_page = Paginator(products, 3) # Muestra dos productos de la lista
 
     page_number = req.GET.get('page')
 
@@ -58,4 +59,76 @@ def show_details(req, product_id):
         'product': product
         })
 
+# FUNCIÓN QUE NOS SIRVE PARA CREAR UN NUEVO PRODUCTO
+def create_product(req):
+    form = ProductForm()
 
+    if req.method == "POST": # Aquí planteamos la primera validación, chequeando si el formulario es de tipo POST
+        print(req.POST)
+        form = ProductForm(req.POST)
+
+        # Finalizamos comprobando la validez de los datos enviados y creando el nuevo producto.
+        if form.is_valid():
+            # print(form)
+            print("Formulario válido")
+
+            new_product = Product()
+
+            new_product.name = form.cleaned_data["name"]
+            new_product.description = form.cleaned_data["description"]
+            new_product.price = form.cleaned_data["price"]
+            new_product.category = form.cleaned_data["category"]
+
+            new_product.save()
+            return redirect("gestion:index")
+
+        else:
+            print("El formulario no es válido")
+
+    # Devolvemos la plantilla HTML de este formulario
+    return render(req, "save_product.html", { "form": form })
+
+
+
+# UPDATE DE UN PRODUCTO
+def update_product(req, product_id):
+    # 1º Buscamos el producto que tenemos que editar por su id
+    product = get_object_or_404(Product, id=product_id)
+
+    form = ProductForm(initial={'name': product.name,
+                                'description': product.description,
+                                'price': product.price,
+                                'category': product.category,})
+
+    # A partir de este punto todo se va a mantener de la misma manera que en el POST!
+    if req.method == "POST": # Aquí planteamos la primera validación, chequeando si el formulario es de tipo POST
+        print(req.POST)
+        form = ProductForm(req.POST)
+
+        # Finalizamos comprobando la validez de los datos enviados y creando el nuevo producto.
+        if form.is_valid():
+            # print(form)
+            print("Formulario válido")
+
+            ##### new_product = Product() #### ESTA LÍNEA TENEMOS QUE ELIMINARLA EN EL UPDATE, PARA QUE NO SE CREE UN NUEVO PRODUCTO Y SE EDITE EL ANTERIOR!!!!
+
+            product.name = form.cleaned_data["name"]
+            product.description = form.cleaned_data["description"]
+            product.price = form.cleaned_data["price"]
+            product.category = form.cleaned_data["category"]
+
+            product.save()
+            return redirect("gestion:index")
+
+        else:
+            print("El formulario no es válido")
+
+    # Devolvemos la plantilla HTML de este formulario
+    return render(req, "save_product.html", { "form": form })
+
+
+# DELETE PRODUCT --->
+def delete(req, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product.delete()
+    return redirect("gestion:index")
