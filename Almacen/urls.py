@@ -23,5 +23,6 @@ urlpatterns = [
 
     # A nivel de proyecto, tenemos que indicar las rutas en donde vamos a encontrar nuestra aplicacion gestion
     # Si no indicamos nada, la ruta principal /8080/ será nuestro inicio o index.html... empleo de la func. "include"
-    path("gestion", include("gestion.urls") )
+    path("gestion", include("gestion.urls")),
+    path("contacto", include("contact.urls")),
 ]

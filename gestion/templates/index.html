@@ -21,8 +21,8 @@
         <h5 class="fw-lighter text-info">{{product.price}}€</h5>
         <p>{{product.description}}</p>
         <a href="{% url 'gestion:show_details' product.id %}" class="my-2">Ver detalles del producto</a>
-        <a href="{% url 'gestion:update_product' product.id %}" class="btn btn-sm btn-primary ms-3">Editar</a>
-        <a href="{% url 'gestion:delete' product.id %}" class="btn btn-sm btn-danger ms-3">Eliminar producto</a>
+        <a href="{% url 'gestion:update_product' product.id %}" class="btn btn-sm btn-primary ms-3"><i class="fa-sharp fa-solid fa-pen-to-square me-2"></i>Editar</a>
+        <a href="{% url 'gestion:delete' product.id %}" class="btn btn-sm btn-danger ms-3"><i class="fa-sharp fa-solid fa-square-minus me-2"></i>Eliminar producto</a>
 
       </li>
       {% endfor %}
